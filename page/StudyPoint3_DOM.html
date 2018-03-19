@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DOM操作</title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <style>
+        .high{
+            font-weight: bold;
+            color: red;
+        }
+        .another{
+            font-style: italic;
+            color: blue;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function(){
+            // ***************************************** 知识点一：DOM样式操作 *****************************************
+            // 获取和设置样式名
+            var p_class = $("p").attr("class");
+//            alert(p_class);
+            $("p").attr('class','high'); // 替换
+//            $("p").addClass('another'); // 追加
+            // 删除样式
+//            $("p").removeClass('another');  // 删除一个
+//            $("p").removeClass('high another'); // 删除多个
+//            $("p").removeClass(); // 删除所有
+            // 切换样式
+            $("a").click(function(){
+//                $("p").toggleClass("another");
+            });
+            // 判断是否含有某个样式
+//            alert($("p").hasClass('another')); // 等价于$("p").is('.another');
+            // CSS-DOM操作
+//            alert($("p").css("color")); // 获取元素的样式属性
+            $("p").css("color",'green'); // 设置元素样式
+            $("p").css({"frontSize":"30px","backgroundColor":"#888888"}); // 设置元素样式
+            $("p").css("opacity","0.5"); // 设置透明度，半透明
+//            alert($("p").height());// 获取高度，元素在页面的实际高度值，不带单位，同样给定值可设置高度；对应的还有width()方法
+//            alert($("p").css("height"));// 获取元素样式的设置，可能是auto，带单位
+            // 获取元素在当前视窗的相对偏移
+            var offset = $("p").offset();
+//            alert(offset.left);// 获取左偏移
+//            alert(offset.top);// 获取右偏移
+            // 获取元素相对于最近的一个position样式属性设置为relative或者absolute的祖父节点的相对偏移
+            var position = $("p").position();
+//            alert(position.left);// 获取左偏移
+//            alert(position.top);// 获取右偏移
+            // 获取元素的滚动条距顶端的距离和距左侧的距离
+//            alert($("p").scrollTop());// 获取元素的滚动条距顶端的距离，可设置值来控制滚动条的位置
+//            alert($("p").scrollLeft());// 获取元素的滚动条距左侧的距离，可设置值来控制滚动条的位置
+
+            // ***************************************** 知识点二：DOM HTML、文本操作 *****************************************
+            // 1、html()方法，读取和设置元素中的html内容
+            $("p").html(); // 获取
+            $("p").html("<strong>设置成新的html内容</strong>");
+            // 2、text()方法，读取和设置元素中的文本内容
+//            alert($("p").text());
+            $("p").text('设置成新的文本');
+            // 3、val()方法，设置和获取元素的值，无论是文本、下拉框还是单选框
+            // 方式一：
+//            $("#address").focus(function(){
+//                var txt_value = $(this).val();
+//                if(txt_value == '请输入邮箱地址'){
+//                    $(this).val("");
+//                }
+//            });
+//            $("#address").blur(function(){
+//                var txt_value = $(this).val();
+//                if(txt_value == ""){
+//                    $(this).val("请输入邮箱地址");
+//                }
+//            });
+//            $("#password").focus(function(){
+//                var txt_value = $(this).val();
+//                if(txt_value == "请输入邮箱密码"){
+//                    $(this).val("");
+//                }
+//            });
+//            $("#password").blur(function(){
+//                var txt_value = $(this).val();
+//                if(txt_value == ""){
+//                    $(this).val("请输入邮箱密码");
+//                }
+//            });
+            // 方式二：使用this.defaultValue
+            $("#address").focus(function(){
+                var txt_value = $(this).val();
+                if(txt_value == this.defaultValue){
+                    $(this).val("");
+                }
+            });
+            $("#address").blur(function(){
+                var txt_value = $(this).val();
+                if(txt_value == ""){
+                    $(this).val(this.defaultValue);
+                }
+            });
+            $("#password").focus(function(){
+                var txt_value = $(this).val();
+                if(txt_value == this.defaultValue){
+                    $(this).val("");
+                }
+            });
+            $("#password").blur(function(){
+                var txt_value = $(this).val();
+                if(txt_value == ""){
+                    $(this).val(this.defaultValue);
+                }
+            });
+            // 4、val()方法还能使下拉框、多选框和单选框响应的选项被选中
+            $("#single").val('选择2号'); // 或 $("#single option:eq(1)").attr("selected",true)，不设置option的value属性，默认value和text值相同
+            $("#multiple").val(["选择2号","选择3号"]); // 数组形式赋值，但是原第一和第五选中会取消
+            $(":checkbox").val(["check2","check3"]);
+            $(":radio").val(["radio2"]); // 或 $("[value=radio2]:radio").attr("checked",true)
+
+        });
+    </script>
+</head>
+<body>
+<div id="yangshi" style="margin-top: 10px;">
+    <p class="myClass" title="选择你最喜欢的水果.">你最喜欢的水果是?</p>
+    <a href="#">切换样式</a>
+</div>
+<div id="dom" style="margin-top: 10px;">
+    <input type="text" id="address" value="请输入邮箱地址">
+    <input type="text" id="password" value="请输入邮箱密码">
+    <input type="button" value="登录">
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <title></title>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            // 1、选择器性能，由高到底：by id、by标签类型、by class类、by属性值、by伪选择器（是否可见等）
+            // 2、全局缓存对象，避免重复查找
+            window.$my={
+                head:$("head"),
+                body:$("body")
+            };
+//            alert($my.head.html());// 使用
+            $my.div=$("div");// 继续添加到全局变量中
+            alert($my.div.html());
+            // 3、性能方面，建议使用简单for或while循环来处理，而不是$.each()
+            // 4、不要给表格的所有tr或td绑定事件，而是绑定表格后，获取到触发的目标元素，建议使用on
+            $("#myTable").on('click','td',function(){
+                $(this).css('background','red');
+            });
+            // 5、使用join来拼接数组转化为字符串
+            var array=[];
+            for(var i=0;i<=10;i++){
+                array[i]="<li>"+i+"</li>";
+            }
+            $("div").html(array.join('*')); //参数是分隔符
+        });
+    </script>
+</head>
+<body>
+<div>test</div>
+</body>
+</html>

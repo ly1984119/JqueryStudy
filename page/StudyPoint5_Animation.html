@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <style>
+        #panel{
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #0050D0;
+            background: #96E555;
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            // ***************************************** 知识点一：动画操作****************************************
+            // 三种速度参数："slow","normal","fast"，对应0.6秒、0.4秒和0.2秒；数字作为参数就不需要加引号，单位毫秒
+            // show()和hide()，隐藏和显示
+            // fadeIn()和fadeOut()，不透明度
+            // slideUp()和slideDown()，由上至下延伸显示，由下到上缩短隐藏
+            // 自定义动画
+            // animate(params,speed,callback)：params样式属性及值的映射、speed速度参数可选、callback动画完成时执行的参数可选
+//            $("#panel").mouseover(function(){
+////                $(this).animate({left:"500px"},3000); // 元素3秒内向右移动500像素
+//                $(this).animate({left:"+=500px"},3000); // +=表示当前位置累加，-=累减
+//            }).mouseout(function(){
+//                $(this).animate({left:"-=500px"},3000);
+//            });
+//            $("#panel").click(function(){
+                // 动画效果同时执行
+//                $(this).animate({left:"500px",height:"200px"},3000);
+                // 动画效果按先后顺序执行，可以使用链式写法
+//                $(this).animate({left:"500px"},3000);
+//                $(this).animate({height:"200px"},3000);
+                // 更复杂实现
+//                $(this).animate({left:"400px",height:"200px",opacity:"1"},3000).animate({top:"200px",width:"200px"},3000).fadeOut("slow");
+                // 回调函数，适用于所有jquery动画效果的方法
+//                $(this).animate({left:"400px",height:"200px",opacity:"1"},3000).animate({top:"200px",width:"200px"},3000,function(){
+//                    $(this).css("border","5px solid blue");
+//                });
+//            });
+
+            // ***************************************** 知识点二：动画事件****************************************
+            // stop([clearQueue][gotoEnd])，都是可选，为布尔值。clearQueue代表是否清空未执行完的队列，gotoEnd代表是否将正在执行的动画跳转到末状态
+            $("#panel").mouseover(function(){
+                $(this).stop(true,true).animate({left:"+=500px"},3000); // stop()会结束当前执行的动画，并立即执行队列中的下一个动画
+            }).mouseout(function(){
+                $(this).stop(true,true).animate({left:"-=500px"},3000);
+            });
+            // 判断元素是否处于动画状态
+            if(!$("#panel").is(":animated")){
+                // 再添加动画
+            }
+            // 延时动画
+//            $("#panel").animate({left:"+=500px"},3000).delay(1000);
+        });
+    </script>
+</head>
+<body>
+<div id="panel"></div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>事件学习</title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(window).load(function(){
+            // 等价JS的window.onload，页面所有关联文件下载完毕后，才加载JS内容
+        });
+        // ***************************************** 知识点一：事件绑定****************************************
+        // bind()：一般绑定事件
+        $(function(){
+            // 绑定单击事件
+//            $("#panel h5.head").bind("click",function(){
+//                var content = $(this).next();
+//                if(content.is(":visible")){
+//                    content.hide();
+//                }else{
+//                    content.show();
+//                }
+//            });
+            // 绑定鼠标事件,简单写法
+//            $("#panel h5.head").mouseover(function(){
+//                $(this).next().show();
+//            }).mouseout(function(){
+//                $(this).next().hide();
+//            });
+            // 绑定多个事件 $("div").bind("mouseover mouseout",function(){});
+            // 绑定带命名空间的事件和删除
+            // $("div").bind("click",function(){});
+            // $("div").bind("click.plugin",function(){});
+            // $("div").bind("mouseover.plugin",function(){});
+            // $("div").unbind(".plugin"); // 带命名空间的全部解除了
+            // $("div").trigger("click!"); // 只触发click事件，而不触发click.plugin事件，注意后面的叹号，如果不带叹号则两者都触发
+
+            // ***************************************** 知识点二：事件合成和阻止****************************************
+            // 合成事件
+            // hover()方法用于模拟光标悬停事件（准确地说此方法是用来代替bind("mouseenter")和bind("mouseleave")，因此当需要触发hover方法的第2个函数时，需要使用trigger("mouseleave")）
+//            $("#panel h5.head").hover(function(){
+//                $(this).next().show();
+//            },function(){
+//                $(this).next().hide();
+//            });
+            // toggle方法用于模拟鼠标连续单击事件，轮番触发N个函数（1.9版本之后，toggle被干掉了）
+//            $("#panel h5.head").toggle(function(){
+//                $(this).next().show();
+//            },function(){
+//                $(this).next().hide();
+//            });
+            // toggle方法的另外一个作用是切换元素的可见状态（1.9版本之后，toggle被干掉了）
+//            $("#panel h5.head").toggle(function(){
+//                $(this).next().toggle();
+//            },function(){
+//                $(this).next().toggle();
+//            });
+
+            // 停止冒泡事件，function参数event可轻松获取事件对象
+            $("#panel h5.head").click(function(event){
+                alert("内层H5被触发");
+                // 可停止冒泡
+//                event.stopPropagation();
+                return false;
+            });
+            $("#panel").click(function(event){
+                alert("中层div被触发");
+                // 可停止冒泡
+//                event.stopPropagation();
+                return false;
+            });
+            $("body").click(function(){
+                alert("上层body被触发");
+            });
+            // 阻止表单的提交按钮默认行为，可使用event.preventDefault()方法，或直接return false完事
+            // jQuery不支持事件捕获，请使用原生JS
+
+            // ***************************************** 知识点三：事件对象的属性****************************************
+            // event事件对象属性
+            // 1、event.type，如果是单击事件，获取到的是"click"
+            // 2、event.preventDefault()方法，阻止默认行为
+            // 3、event.stopPropagation()方法，阻止冒泡行为
+            // 4、event.target，获取到触发事件的元素
+            // 5、event.relatedTarget
+            // 6、event.pageX和event.pageY，获取光标相对于页面的x坐标和y坐标
+            // 7、event.which可以获取键盘的按键和鼠标的左、中、右键，值是1、2、3
+
+            // ***************************************** 知识点四：移除事件和模拟操作****************************************
+//            $("body").unbind("click"); // 如果没有参数则删除所有事件\
+            // 删除指定事件，依据函数
+//            $("#btn").bind("click",myFun1 = function(){
+//                $("#test").append("<p>我的绑定函数1</p>");
+//                return false;
+//            }).bind("click",myFun2 = function(){
+//                $("#test").append("<p>我的绑定函数2</p>");
+//            }).bind("click",myFun3 = function(){
+//                $("#test").append("<p>我的绑定函数3</p>");
+//            });
+            // 移除第二个事件
+//            $("#btn").unbind("click",myFun2);
+
+            // 事件执行一次后，就自动清除了
+//            $("#btn").one("click",myFun1 = function(){
+//                $("#test").append("<p>我的绑定函数1</p>");
+//                return false;
+//            }).one("click",myFun2 = function(){
+//                $("#test").append("<p>我的绑定函数2</p>");
+//            }).one("click",myFun3 = function(){
+//                $("#test").append("<p>我的绑定函数3</p>");
+//            });
+            // 模拟事件，用户进入页面后触发click事件
+//            $("#btn").trigger("click"); // 简化写法$("#btn").click(); trigger只触发事件，不能写执行内容，需要先bind事件
+            // 绑定自定义事件并触发，可传递参数
+            $("#btn").bind("myClick",function(event,message1,message2){ // event参数必须有
+                $("#test").append("<p>"+ message1 + message2+"</p>");
+            });
+            $("#btn").trigger("myClick",["我的自定义","事件"]); // 第一次参数是要触发的事件类型，第二个参数是附加数据，数组形式
+            // 执行默认浏览器操作
+            $("input").trigger("focus"); // 除了执行focus事件也会执行浏览器默认操作，让<input>元素获得焦点
+            $("input").triggerHandler("focus");// 不执行浏览器默认操作，只执行focus事件，即<input>元素不获得焦点
+        });
+    </script>
+   <style>
+       .head{
+           font-weight: bold;
+           color: red;
+       }
+       .content{
+           font-style: italic;
+           color: blue;
+           display: none;
+       }
+   </style>
+</head>
+<body>
+<div id="panel">
+    <h5 class="head">什么是JQuery？</h5>
+    <div class="content">
+        JQuery是一门什么什么课程......
+    </div>
+    <button id="btn">单击我</button>
+    <div id="test"></div>
+</div>
+</body>
+</html>

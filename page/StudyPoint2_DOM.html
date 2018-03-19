@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DOM操作</title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            // ***************************************** 知识点一：DOM节点操作 *****************************************
+            // 查找元素节点
+            var $li = $("ul li:eq(1)");
+            var li_txt = $li.text();
+//            alert(li_txt);
+            // 查找元素属性
+            var $para = $("p");
+            var p_txt = $para.attr("title");
+//            alert(p_txt);
+            // 创建元素节点，$(html)方法会根据传入的html标记字符串，创建一个DOM对象，并包装成jquery对象
+//            var $li_1 = $("<li></li>");
+//            var $li_2 = $("<li></li>");
+//            $("ul").append($li_1);
+//            $("ul").append($li_2);
+            // 创建文本节点，无论$(html)中的html代码多么复杂，都可以创建
+//            var $li_1 = $("<li>香蕉</li>");
+//            var $li_2 = $("<li>雪梨</li>");
+//            $("ul").append($li_1);
+//            $("ul").append($li_2);
+            // 创建属性节点
+            var $li_1 = $("<li title='香蕉'>香蕉</li>");
+            var $li_2 = $("<li title='雪梨'>雪梨</li>");
+            $("ul").append($li_1);
+            $("ul").append($li_2);
+            // 插入节点
+            // 向匹配元素的内部后面添加
+//            $("<b>你好</b>").appendTo("#testP");
+            // 向匹配元素的内部前部添加
+//            $("#testP").prepend("<b>你好</b>");
+//            $("<b>你好</b>").prependTo("#testP");
+            // 向匹配元素外部后面添加
+//            $("#testP").after("<b>你好</b>");
+//            $("<b>你好</b>").insertAfter("#testP");
+            // 向匹配元素外部前面添加
+            $("#testP").before("<b>你好</b>");
+//            $("<b>你好</b>").insertBefore("#testP");
+            // 删除节点
+            // remove方法会删除节点所包含后代所有内容
+//            var $li = $("ul li:eq(1)").remove();
+//            $li.appendTo("ul"); // 删除的再添加回去
+//            $("ul li:eq(1)").appendTo("ul"); // appendTo方法也可以用来移动元素
+//            $("ul li").remove("li[title!=菠萝]") // 选择性删除
+            // detach不会把删除的元素从jquery中删除，将来可使用，所有绑定事件、附加数据都会保留
+//            $("ul li").click(function(){
+//                alert($(this).html());
+//            });
+//            var $li = $("ul li:eq(1)").detach();
+//            $li.appendTo("ul");
+            // empty()方法会清空元素中所有后代节点
+            // 复制节点
+            $("ul li").click(function(){
+                $(this).clone(true).appendTo("ul"); // 参数true表示，复制元素的同时还复制元素的事情，这样复制体也有复制的功能
+            });
+            // 替换节点
+//            $("p").replaceWith("<strong>你最不喜欢的水果是？</strong>");
+//            $("<strong>你最不喜欢的水果是？</strong>").replaceAll("p");
+            // 包裹节点
+//            $("strong").wrap("<b></b>"); // 把每个strong都用<b></b>包裹起来
+//            $("strong").wrapAll("<b></b>"); // 把两个strong用一对<b>包裹起来
+            $("strong").wrapInner("<b></b>"); // 把strong内部的内容用一对<b>包裹起来
+
+            // ***************************************** 知识点二：DOM属性操作 *****************************************
+            var attrvalue = $("#testP").attr("title"); // 获取属性
+//            alert(attrvalue);
+            $("#testP").attr("title","设置title1"); // 设置属性
+//            alert($("#testP").attr("title"));
+            $("#testP").attr({"title":"设置title2","name":"设置name"});
+//            alert($("#testP").attr("title"));
+//            alert($("#testP").attr("name"));
+            // 删除属性
+            $("#testP").removeAttr("title");
+//            alert($("#testP").attr("title"));
+//            alert($("#testP").attr("name"));
+            // 遍历节点
+            // 获取匹配元素的子元素集合children()，只考虑子元素而不考虑其他后代元素
+            var divChild1 = $("#yangshi").children();
+//            alert(divChild1.length);
+            for(var i=0; i < divChild1.length;i++){
+//                alert(divChild1[i].innerHTML);
+            }
+            // next()方法：取得匹配元素后面紧邻的同辈子元素
+//            alert($("#single").next().html());
+            // prev()方法：取得匹配元素前面紧邻的同辈子元素
+//            alert($("#multiple").prev().html());
+            // siblings()方法，取得匹配元素前后所有的同辈子元素
+//            alert($("#testP").siblings().html());
+            // parent()：获得集合中每个匹配元素的父级元素
+            // parents()：获得集合中每个匹配元素的祖先元素
+            // closest()：从元素本身开始，逐级向上级元素匹配，并返回最先匹配的祖先元素
+        });
+    </script>
+</head>
+<body>
+<p title="选择你最喜欢的水果.">你最喜欢的水果是?</p>
+<ul>
+    <li title="苹果">苹果</li>
+    <li title="橘子">橘子</li>
+    <li title="菠萝">菠萝</li>
+</ul>
+<p id="testP" title="我想说">我想说:</p>
+<strong title="测试包裹">测试包裹</strong>
+<strong title="测试包裹">测试包裹</strong>
+<div id="val" style="margin-top: 10px;">
+    <select id="single">
+        <option>选择1号</option>
+        <option>选择2号</option>
+        <option>选择3号</option>
+    </select>
+    <select id="multiple" multiple="multiple" style="height: 120px;">
+        <option selected="selected">选择1号</option>
+        <option>选择2号</option>
+        <option>选择3号</option>
+        <option>选择4号</option>
+        <option selected="selected">选择5号</option>
+    </select>
+    <input type="checkbox" value="check1">多选1
+    <input type="checkbox" value="check2">多选2
+    <input type="checkbox" value="check3">多选3
+    <input type="checkbox" value="check4">多选4
+    <input type="radio" value="radio1">单选1
+    <input type="radio" value="radio2">单选2
+    <input type="radio" value="radio3">单选3
+</div>
+</body>
+</html>

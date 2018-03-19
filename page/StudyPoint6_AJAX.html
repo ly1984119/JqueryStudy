@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            // ***************************************** 知识点一：Load方法 ****************************************
+             // load(url,data,callback)方法，能载入远程html代码并插入到DOM中，主要从服务器上获取静态的数据文件
+//            $("#testLoad").load("StudyPoint6_Table.html");  // 不筛选会引入js等内容，样式以主页面为主
+            // 可筛选选择内容，只是引入了html内容，无样式和js等
+//            $("#testLoad").load("StudyPoint6_Table.html #shaixuan_table");
+            // 无参数传递是GET方式
+//            $("#testLoad").load("StudyPoint6_Table.html", function(){});
+            // 有参数传递是POST方式
+            $("#testLoad").load("StudyPoint6_Table.html",{name:"rain",age:"22"},function(responseText,textStatus,XMLHttpRequest){
+                // 回调参数，只要请求完成，回调函数就被触发
+                // responseText 请求返回的内容
+                // textStatus  请求状态：success、error、notmodified、timeout 4种
+                // XMLHttpRequest  XMLHttpRequest对象
+            });
+
+            // ***************************************** 知识点二：get、post方法 ****************************************
+            // $.get(url,data,callback,type)，url是必选
+            $.get("get.do",{name:"rain",age:"22"},function(data,textStatus){
+                // data：返回的内容，可以是xml、json或html片段等等
+                // textStatus：请求状态：success、error、notmodified、timeout 4种
+            },"json"); // 最后的type可用来限定服务器返回的内容的格式，如xml、html等
+            // $.post()方法参数和结构同get，只是采用post方式提交后台
+
+            // ***************************************** 知识点三：getScript、getJSON方法 ****************************************
+            $.getScript("test.js",function(){}); // 自动导入js后并执行
+            $.getJSON("test.json",function(data){
+                // data：返回数据
+                $.each(data,function(commentIndex,comment){ // each是全局函数，遍历对象和数组
+                    // commentIndex：成员或数组的索引
+                    // comment：对应变量或内容
+                    // 退出循环只要返回false即可
+                });
+            });
+
+            // ***************************************** 知识点四：ajax方法 ****************************************
+            $.ajax(  {
+                        url:'test.do', // 请求地址
+                        type:'POST', // 请求类型或GET
+                        timeout:'4000', // 设置请求的超时时间（毫秒）
+                        dataType:'xml', // 预期服务器返回数据类型
+                        beforeSend: function(XMLHttpRequest){ // 发送请求前可以修改XMLHttpRequest对象的函数，如添加自定义http头
+                            this; //调用本地ajax请求时传递的option参数
+                        },
+                        complete: function(){ // 请求完成后调用的回调函数
+                            this; // 调用本地ajax请求时传递的option参数
+                        },
+                        success: function(data,textStatus){ // 请求成功后调用的回调函数
+                            // data可能是xmlDoc、jsonObj、html、text等等
+                            this; // 调用本地ajax请求时传递的option参数
+                        },
+                        error: function(XMLHttpRequest,textStatus,errorThrown){ // 请求失败时调用的函数
+                            // 通常情况下textStatus和errorThrown只有其中一个包含信息
+                            this; // 调用本地ajax请求时传递的option参数
+                        },
+                        global:true // 默认是true，表示是否触发全局ajax事件
+              }
+            );
+
+            // ***************************************** 知识点五：序列化元素serialize ****************************************
+            $.get("get.do",$("$form1").serialize(),function(data,textStatus){
+                // serialize能够将DOM元素内容序列化为字符串，用于ajax请求，且会自动编码，避免中文问题
+                // 不只是可以作用于表单元素，其他选择器选择的元素也可以使用，如$(":checkbox,:radio").serialize()
+            });
+            // 方法serializeArray()方法是将DOM元素序列化为JSON格式
+            // $.param()方法是serialize()方法的核心，用来对一个数组或对象按照key/value进行序列化
+            var obj = {a:1,b:2,c:3};
+            var k = $.param(obj);
+            // alert(k); // 输出a=1&b=2&c=3
+
+            // ***************************************** 知识点六：AJAX全局事件 ****************************************
+            // 页面只要有ajax的请求，就会触发全局事件，可绑定元素
+            $("#testLoad").ajaxStart(function(){
+                // ajax请求开始时执行
+                $(this).show();
+            });
+            // ajaxStop请求结束时执行；ajaxComplete请求完成时执行；ajaxError请求发生错误时执行，ajaxSend请求发送前执行；ajaxSuccess请求成功时执行
+            // 设置$.ajax的global:false则不触发全局ajax事件
+        });
+    </script>
+</head>
+<body>
+<div id="testLoad"></div>
+</body>
+</html>

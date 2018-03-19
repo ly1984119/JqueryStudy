@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            // 单行文本框应用
+            $(":input").focus(function(){
+                $(this).addClass("focus");
+            }).blur(function(){
+                $(this).removeClass("focus");
+            });
+
+            // 多行文本框高度变化
+            var comment = $("#comment");
+            $(".bigger").click(function(){
+                if(!comment.is(":animated")){
+                    if(comment.height() < 500){
+                        comment.animate({height:"+=50"},400);
+                    }
+                }
+            });
+            $(".smaller").click(function(){
+                if(!comment.is(":animated")){
+                    if(comment.height() > 50){
+                        comment.animate({height:"-=50"},400);
+                    }
+                }
+            });
+
+            // 多行文本框滚动条变化
+            $(".up").click(function(){
+                if(!comment.is(":animated")){
+                    comment.animate({scrollTop:"-=50"},400);
+                }
+            });
+            $(".down").click(function(){
+                if(!comment.is(":animated")){
+                    comment.animate({scrollTop:"+=50"},400);
+                }
+            });
+
+            // 复选框应用 checked和disable的设置建议使用prop，而非attr
+            $("#checkedAll").click(function(){
+                $("[name=items]:checkbox").attr('checked',true);
+            });
+            $("#checkedNone").click(function(){
+                $("[name=items]:checkbox").attr('checked',false);
+            });
+            $("#checkedRev").click(function(){
+                $("[name=items]:checkbox").each(function(){
+//                   $(this).attr('checked',!$(this).attr("checked"));
+                    this.checked = !this.checked; // js的原始方法
+                });
+            });
+            $("#send").click(function(){
+                var str = "你选中的是：\r\n";
+                $("[name=items]:checkbox").each(function(){
+                    if(this.checked){
+                        str = str + $(this).val() + "\r\n";
+                    }
+                });
+                alert(str);
+            });
+
+            // 下拉框应用
+            $("#add").click(function(){
+                var options = $("#select1 option:selected");
+                options.appendTo('#select2');
+            });
+            $("#add_all").click(function(){
+                var options = $("#select1 option");
+                options.appendTo("#select2");
+            });
+            $("#select1").dblclick(function(){
+                var options = $("option:selected",this);
+                options.appendTo("#select2");
+            });
+            $("#remove").click(function(){
+                var options = $("#select2 option:selected");
+                options.appendTo('#select1');
+            });
+            $("#remove_all").click(function(){
+                var options = $("#select2 option");
+                options.appendTo("#select1");
+            });
+            $("#select2").dblclick(function(){
+                var options = $("option:selected",this); // 这个写法很新
+                options.appendTo("#select1");
+            });
+        });
+    </script>
+    <style>
+        .focus{
+            border: 1px solid #f00;
+            background: #fcc;
+        }
+        span {
+            background-color:#ffcc00;
+            display:-moz-inline-box;
+            display:inline-block;
+            width:50px;
+        }
+    </style>
+</head>
+<body>
+<!-- 单行文本框应用 -->
+<form action="#" method="post" id="regForm">
+    <fieldset>
+        <legend>单行文本框应用</legend>
+        <div style="margin-top: 5px">
+            <label for="username">名称：</label>
+            <input id="username" type="text">
+        </div>
+        <div style="margin-top: 5px">
+            <label for="pass">密码：</label>
+            <input id="pass" type="password">
+        </div>
+        <div style="margin-top: 5px">
+            <label for="msg">详细信息：</label>
+            <textarea id="msg"></textarea>
+        </div>
+    </fieldset>
+</form>
+<!--  多行文本框高度变化\滚动条变化-->
+<form>
+    <fieldset>
+        <legend>多行文本框高度变化\滚动条变化</legend>
+        <div class="msg">
+            <div class="msg_caption">
+                <span class="bigger">放大</span>
+                <span class="smaller">缩小</span>
+                <span class="up">上移</span>
+                <span class="down">下移</span>
+            </div>
+            <div>
+                <textarea id="comment" rows="8" cols="20">
+                    多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.
+                    多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.多行文本框高度变化.
+                </textarea>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<!-- 复选框应用 -->
+<form>
+    <fieldset>
+        <legend>复选框应用</legend>
+        你爱好的运动是？<br/>
+        <input type="checkbox" name="items" value="足球"/> 足球
+        <input type="checkbox" name="items" value="篮球"/> 篮球
+        <input type="checkbox" name="items" value="羽毛球"/> 羽毛球
+        <input type="checkbox" name="items" value="乒乓球"/> 乒乓球<br/>
+        <input type="button" id="checkedAll" value="全选">
+        <input type="button" id="checkedNone" value="全不选">
+        <input type="button" id="checkedRev" value="反选">
+        <input type="button" id="send" value="提交">
+    </fieldset>
+</form>
+<!-- 下拉框应用 -->
+<fieldset>
+    <legend>下拉框应用</legend>
+    <div class="centent" style="float: left;margin-right: 20px">
+        <select multiple id="select1" style="width: 100px;height: 160px">
+            <option value="1">选项1</option>
+            <option value="2">选项2</option>
+            <option value="3">选项3</option>
+            <option value="4">选项4</option>
+            <option value="5">选项5</option>
+            <option value="6">选项6</option>
+            <option value="7">选项7</option>
+            <option value="8">选项8</option>
+        </select>
+        <div>
+            <span id="add">选中添加到右边&gt;&gt;</span>
+            <span id="add_all">全部添加到右边&gt;&gt;</span>
+        </div>
+    </div>
+    <div class="centent">
+        <select multiple id="select2" style="width: 100px;height: 160px;"></select>
+        <div>
+            <span id="remove">&lt;&lt;选中删除到左边</span>
+            <span id="remove_all">&lt;&lt;全部删除到左边</span>
+        </div>
+    </div>
+</fieldset>
+
+</body>
+</html>

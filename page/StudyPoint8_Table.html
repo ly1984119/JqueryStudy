@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            // 表格应用
+            // 隔行变色
+            $("tbody>tr:odd").addClass("odd");
+            $("tbody>tr:even").addClass("even");
+
+            // 单选框表格高亮
+            $("tbody>tr").click(function(){
+                // 单选框控制
+                // end()重新返回$(this)
+//                $(this).addClass("selected").siblings().removeClass('selected').end().find(':radio').attr('checked',true);
+                // 多选框控制
+                if( $(this).hasClass("selected")){
+                    $(this).removeClass("selected").find(":checkbox").attr('checked',false);
+                }else{
+                    $(this).addClass("selected").find(":checkbox").attr('checked',true);
+                }
+            });
+
+            // 表格展开
+            $("tr[class^=child]").hide();
+            $("tr.parent").click(function(){
+                if($(this).hasClass("selected2")){
+                    $(this).removeClass("selected2");
+                    $(".child_"+this.id).hide();
+                }else{
+                    $(this).addClass("selected2");
+                    $(".child_"+this.id).show();
+                }
+            });
+
+            // 表格筛选
+            $("#shaixuan").keyup(function(){
+                if($(this).val() == ''){
+                    $("#shaixuan_table tbody tr").show();
+                }
+                $("#shaixuan_table tbody tr").hide().filter(":contains('"+$(this).val()+"')").show();
+            });
+        });
+    </script>
+    <style>
+        .even{
+            background: #FFF38F;
+        }
+        .odd{
+            background: #FFFFEE;
+        }
+        .selected{
+            background: royalblue;
+        }
+        .selected2{
+            background: #ff0000;
+        }
+    </style>
+</head>
+<body>
+<fieldset>
+    <legend>表格应用-隔行变色、单选、复选控制</legend>
+    <table>
+        <thead>
+        <tr><th>单选框控制</th><th>复选框控制</th><th>姓名</th><th>性别</th><th>暂住地</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td><input type="radio" name="item"></td><td><input type="checkbox"></td><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        </tbody>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>表格展开</legend>
+    <table>
+        <thead>
+        <tr><th>姓名</th><th>性别</th><th>暂住地</th></tr>
+        </thead>
+        <tbody>
+        <tr class="parent" id="row_01"><td colspan="3">前台设计组</td></tr>
+        <tr class="child_row_01"><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr class="child_row_01"><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr class="parent" id="row_02"><td colspan="3">前台开发组</td></tr>
+        <tr class="child_row_02"><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr class="child_row_02"><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr class="parent" id="row_03"><td colspan="3">后台开发组</td></tr>
+        <tr class="child_row_03"><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr class="child_row_03"><td>张山</td><td>男</td><td>浙江宁波</td></tr>
+        </tbody>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>表格筛选</legend>
+    <label for="shaixuan">筛选：</label>
+    <input type="text" id="shaixuan">
+    <table id="shaixuan_table">
+        <thead>
+        <tr><th>姓名</th><th>性别</th><th>暂住地</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>z山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td>w山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td>l山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td>z山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td>l山</td><td>男</td><td>浙江宁波</td></tr>
+        <tr><td>d山</td><td>男</td><td>浙江宁波</td></tr>
+        </tbody>
+    </table>
+</fieldset>
+</body>
+</html>

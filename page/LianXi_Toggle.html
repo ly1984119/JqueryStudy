@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="../js/jquery-2.2.0.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("button").toggle(function(){
+                        alert("green");
+                        $("body").css("background-color","green");},
+                    function(){
+                        alert("red");
+                        $("body").css("background-color","red");},
+                    function(){
+                        alert("yellow");
+                        $("body").css("background-color","yellow");}
+            );
+        });
+    </script>
+</head>
+<body>
+<button>请点击这里，来切换不同的背景颜色</button>
+</body>
+</html>

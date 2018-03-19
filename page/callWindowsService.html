@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        function callService(url) {
+            // 方式一：
+            $.ajax({
+//                url: 'http://localhost:80/DemoService/Client?Id=2', // 请求地址
+//                url: 'http://localhost:8885/?value=OpenAT500:192.168.0.3', // 请求地址打开AT500
+//                url: 'http://localhost:8885/?value=DspNum:1@80', // 请求地址打开AT500对应的灯及数量，标签号&数量
+//                url: 'http://localhost:8885/?value=CloseAll', //关闭所有
+                url: url,
+                type: 'GET', // 请求类型或GET
+                dataType: 'jsonp',
+                jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+                jsonpCallback: "callMethod",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
+                async: false,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            // 方式二
+//            $.getJSON("http://localhost:8885/?value=ddfdfsd[FINAL]&callback=?", { UserId: 1001 },
+//                    function (data) {
+//                        alert(data.info);
+//                    }
+//            );
+        }
+    </script>
+</head>
+<body>
+<button value="callClick" name="click" onclick="callService('http://localhost:8885/?value=OpenAT500:192.168.0.3')">
+    初始化设备
+</button>
+<button value="callClick" name="click" onclick="callService('http://localhost:8885/?value=DspNum:1@80')">显示标签</button>
+<button value="callClick" name="click" onclick="callService('http://localhost:8885/?value=CloseAll')">关闭所有显示</button>
+</body>
+</html>

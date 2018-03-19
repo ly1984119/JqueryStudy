@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>表单AJAX提交</title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script src="../js/jquery.form.js"></script> <!-- 使用插件 -->
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            // 使用ajaxForm方法
+//            $("#myForm").ajaxForm(function(){
+//               $("#output1").html("提交成功！欢迎下次再来！").show();
+//            });
+            // 使用ajaxSubmit方法
+//            $("#myForm").submit(function(){
+//                $(this).ajaxSubmit(function(){
+//                    $("#output1").html("提交成功！欢迎下次再来！").show();
+//                });
+//                return false; // 阻止表单默认提交
+//            });
+            // 上面的ajaxForm和ajaxSubmit传递的参数是一个回调函数
+            // 下面参数还可以设置options对象，对表单拥有更多控制权
+            var options = {
+                target:'#output1',//把服务器返回的内容放入id为output1的元素中
+                beforeSubmit: validation,//提交前的回调函数
+                success: showResponse,//提交后的回调函数
+                url:'#',//默认是form的action，如果申明则会覆盖
+                type:'post',//默认是form的method（'get',or','post'），如果申明则会覆盖
+                dataType:null,//'xml','script',or 'json'（接受服务器返回的类型）
+                clearForm:true,//成功提交后，清除所有表单元素的值
+                resetForm:true,//成功提交后，重置所有表单元素的值
+                timeout:3000//限制请求的时间，当请求大于3秒后，跳出请求
+            };
+            // 传递方式
+            $("#myForm").ajaxForm(options);
+            // 或
+//            $("myForm").submit(function(){
+//                $(this).ajaxSubmit(options);
+//                return false;
+//            });
+            // 回调函数参数说明
+            function showRequest(formData,jqForm,options){
+                var queryString = $.param(formData);
+                return true; // 返回false可阻止表单提交
+                // 说明：
+                // formData是数组对象，使用param方法转成name=1&address=2字符串格式；会以ajax方式提交这些值
+                // jqForm是一个jquery对象，封装了表单DOM元素
+                // options就是前面定义的options对象
+            }
+
+            function showResponse(responseText,statusText,xhr,$form){
+                // statusText返回状态，success或error
+                // responseText服务器返回内容，根据options对象中设置的dataType属性来返回相应格式
+                //
+                //
+            }
+
+            function validation(formData,jqForm,options){
+                // formData数据格式：[{name:name,value:nameValue},{name:password,value:passwordValue}]
+                // 取值方法一：
+//                for(var i=0;i<formData.length;i++){
+//                    if(!formData[i].value){
+//                        alert("用户名、地址和自我介绍都不能为空！");
+//                        return false;
+//                    }
+//                }
+                // 取值方法二：
+//                var form = jqForm[0];
+//                if(!form.name.value || form.address.value){
+//                    alert("用户名、地址和自我介绍都不能为空！");
+//                    return false;
+//                }
+                // 取值方法三：
+                var usernameValue = $("input[name=name]").fieldValue();
+                var addressValue = $("input[name=address]").fieldValue();
+                if(!usernameValue[0] || addressValue[0]){
+                    alert("用户名、地址和自我介绍都不能为空！");
+                    return false;
+                }
+                var queryString = $.param(formData);
+                return true;
+            }
+        })
+    </script>
+</head>
+<body>
+<form id="myForm" method="post" action="#">
+    名称：<input type="text" name="name">
+    地址：<input type="text" name="address">
+    自我介绍：<textarea name="comment"></textarea><br/>
+    <input type="submit" id="test" value="提交"><br/>
+    <div id="output1" style="display: none"></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            var COOKIE_NAME = 'username';
+            if($.cookie(COOKIE_NAME)){ // 读取cookies
+                $("#username").val($.cookie(COOKIE_NAME));
+            }
+            $("#check").click(function(){
+                if(this.checked){
+                    $.cookie(COOKIE_NAME,$("#username").val(),{path:'/',expires:10});// 第一个参数是cookies名，值，和配置参数
+                }else{
+                    $.cookie(COOKIE_NAME,null,{path:'/'});// 删除cookies，必须和存储时设置的相同路径和域名才可以删除
+                }
+            });
+            // 其他参数说明
+            $.cookie('the_cookie','the_value',{
+                expires:7, // 单位是天，如果不设置或设置为null，将被当做session cookie处理，浏览器关闭后删除
+                path:'/', // 路径属性，默认是创建该cookies的页面属性
+                domain:'jquery.com', // 域名属性，默认是创建该cookies的页面域名
+                secure:true // 如果设置为true，则此cookies的传输会要求一个安全协议，如https
+            });
+        });
+    </script>
+</head>
+<body>
+用户名：<input type="text" name="username" id="username"><br/>
+<input type="checkbox" name="check" id="check">记住用户名
+</body>
+</html>

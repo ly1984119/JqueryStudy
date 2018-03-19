@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选择器等基本内容</title>
+    <!--<script src="../js/jquery-2.2.0.js"></script>-->
+    <script src="../js/jquery.min-1.11.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // ***************************************** 知识点一：DOM对象和Jquery对象互转****************************************
+            // jquery对象转dom
+            var $domobj = $("#domobj");
+//            var domobj = $domobj.get(0);
+            var domobj = $domobj[0];
+            alert(domobj.innerHTML);
+
+            // dom对象转jquery
+            var domobj2 = document.getElementById("domobj");
+            var $domobj2 = $(domobj2).html();
+//            alert($domobj2);
+
+            // ***************************************** 知识点二：jQuery如何和其他js共存*****************************************
+            // 1
+//            var $j = jQuery.noConflict(); // 自定义一个快捷方式，将变量$的控制权移交给其他JS库，而jQuery()标志不会
+            // 2
+            // 定义匿名函数执行jQuery
+//            jQuery.noConflict(); // 控制权交给其他js
+//            (function($){
+//                $(function(){
+                    // 继续执行jQuery语句
+//                });
+//            })(jQuery);
+            // 后续的$执行其他js
+            // 3
+            // 如果上面先引入的jQuery的话，那么可以使用jQuery执行jQuery的东西，$()可执行其他js的东西
+
+            // ***************************************** 知识点三：jQuery选择器*****************************************
+            // 基本选择器
+            // 和CSS类似，.demo选择class名是demo的对象，#demo选择id是demo的对象，div选择对象类型是div的对象(依据标签名)
+            $(".demo").click(function(){
+                alert("选择器测试例一");
+            });
+            // 判断对象是否存在方式，不能直接使用$("#tt")
+            if($("#tt").length > 0){
+                alert("对象存在");
+            }
+            if($("#xx")[0]){
+                alert("对象存在");
+            }
+            // 层次选择器
+            // $("div span")选取<div>里的所有<span>元素，只深入一级
+            // $("div > span")选取<div>元素下的元素名是<span>的子元素，深入N级
+            // &(".one + div")选取class为one的下一个<div>同辈元素，同$(".one").next("div")
+            // $("#two ~ div")选取id为tow的元素后面的所有<div>同辈元素，同$("#two").nextAll("div")
+            // $("#prev").siblings("div")选取prev元素同辈的所有div元素，无论前后位置
+            // 基本过滤选择器
+            // $("div:first")选取所有<div>元素中的第一个<div>元素
+            // $("div:last")选取所有<div>元素中的最后一个<div>元素
+            // $("input:not(.myClass)")选取class不是myClass的<input>元素（里面可以套用其他疾病过滤器，如:not(:last)，不是最后一个）
+            // $("input:even")选取索引是偶数的<input>元素
+            // $("input:odd")选取索引是奇数的<input>元素
+            // $("input:eq(1)")选取索引等于1不包括1的<input>元素
+            // $("input:gt(1)")选取索引大于1不包括1的<input>元素
+            // $("input:lt(1)")选取索引小于1不包括1的<input>元素
+            // $(":header")选取网页中所有的<h1>,<h2>,<h3>......，所有标题元素
+            // $("div:animated")选取正在执行动画的<div>元素
+            // $(":focus")选取当前获取焦点的元素
+            // 内容过滤选择器
+            // $("div:contains('我')")选择含有文本“我”的<div>元素
+            // $("div:empty")选取不包含子元素（包括文本元素）的<div>空元素
+            // $("div:has(p)")选取含有<p>元素的<div>元素
+            // $("div:parent")选取拥有子元素（包括文本元素）的<div>元素
+            // 可见性过滤选择器
+            // $(":hidden")选取所有不可见的元素。包括<input type="hidden"/>,<div style="display:none"/>和<div style="visibility:hidden"/>等元素。
+            // 如果只想选取<input>元素，可使用$("input:hidden")
+            // $("div:visible")选取所有可见的<div>元素
+            // 属性过滤选择器
+            // $("div[id]")选取拥有属性id的元素
+            // $("div[title=test]")选取属性title为test的<div>元素
+            // $("div[title!=test]")选取属性title不等于test的<div>元素，包括没有title属性的<div>元素
+            // $("div[title^=test]")选取属性title以test开始的<div>元素
+            // $("div[title$=test]")选取属性title以test结束的<div>元素
+            // $("div[title*=test]")选取属性title含有test的<div>元素
+            // $("div[title|="en"]")选取属性title等于en或以en为前缀的<div>元素
+            // $("div[title~="uk"]")选取属性title用空格分隔的值中包含字符uk的<div>元素
+            // $("div[id][title$="test"]")选取拥有属性id，并且属性title以test结束的<div>元素
+            // 子元素过滤选择器
+            // $("div.one :nth-child(2)")选取class为one的<div>父元素下的第二个子元素
+            // $("div.one :first-child")选取class为one的<div>父元素下的第一个子元素
+            // $("div.one :last-child")选取class为one的<div>父元素下的最后一个子元素
+            // $("div.one :only-child")如果class为one的<div>父元素下只有一个子元素则选取，否则不选取，唯一匹配
+            // 表单对象属性过滤选择器
+            // $("#form1 :enabled")选取id为form1的表单内的所有可用元素
+            // $("#form2 :disabled")选取id为form2的表单内的所有不可用元素
+            // $("input :checked")选取所有被选中的<input>元素
+            // $("select option:selected")选取所有被选中的选项元素
+            // $("#form1 input:enabled")选取id为form1的表单内的所有可用<input>元素
+            // 表单选择器
+            // $(":input")选取所有<input><textarea><select><button>元素
+            // $(":text")选取所有的单行文本框
+            // $(":password")选取所有的密码框
+            // $(":radio")选取所有的单选框
+            // $(":checkbox")选取所有的复选框
+            // $(":submit")选取所有的提交按钮
+            // $(":image")选取所有的图像按钮
+            // $(":reset")选取所有的重置按钮
+            // $(":button")选取所有的按钮
+            // $(":file")选取所有的上传域
+            // $(":hidden")选取所有的不可见元素
+
+            // 选择器注意事项
+            // 1、如果id名含有#，选取的时候需要转移\\#
+            // 2、选择器拼接的时候，空格代表内部，没空格代表本身，如：
+            // $(".test :hidden")选取class为test的元素里面的隐藏元素
+            // $(".test:hidden")选取隐藏的class是test的元素
+        });
+    </script>
+</head>
+<body>
+<div id="domobj">DOM对象和Jquery对象互转</div>
+<p class="demo">选择器测试例一</p>
+</body>
+</html>
